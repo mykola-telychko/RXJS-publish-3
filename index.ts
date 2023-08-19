@@ -1,7 +1,9 @@
-import { of, map } from 'rxjs';
+import { take, tap, interval } from 'rxjs';
 import { publish, tap } from 'rxjs/operators';
 
-const log = (index) => (v) => console.log(`subscription ${index}\t: ` + v);
+// https://indepth.dev/reference/rxjs/operators/publish
+
+const echo = (inum) => (v) => console.log(`subsion ${inum}\t: ` + v);
 
 const obs = interval(200).pipe(
   take(3),
@@ -14,7 +16,9 @@ const obs = interval(200).pipe(
 
 const shared = obs.pipe(publish());
 
-shared.subscribe(log(1));
-shared.subscribe(log(2));
+shared.subscribe(echo(1));
+shared.subscribe(echo(2));
+shared.subscribe(echo(3));
+shared.subscribe(echo(4));
 
 shared.connect();
